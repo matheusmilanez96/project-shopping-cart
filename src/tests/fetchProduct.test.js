@@ -5,7 +5,7 @@ import product from './mocks/product';
 // implemente seus testes aqui
 describe('Teste a função fetchProduct', () => {
   it('fetchProduct é uma função', () => {
-    expect(typeof fetchProductsList).toBe('function');
+    expect(typeof fetchProduct).toBe('function');
   });
 
   it('fetch é chamado ao executar fetchProduct', async () => {
@@ -25,6 +25,6 @@ describe('Teste a função fetchProduct', () => {
   });
 
   it('ao chamar a função sem argumento, retorna um erro com a mensagem', async () => {
-    await expect(fetchProductsList()).rejects.toThrow(new Error('ID não informado'));
+    await expect(fetchProduct()).rejects.toThrow(new Error('ID não informado'));
   });
 });
