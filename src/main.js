@@ -5,28 +5,34 @@ import './style.css';
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 const productsDiv = document.querySelector('.products');
-console.log(productsDiv);
 
 const appendLoadingText = () => {
-  const loadingText = document.createElement('h1');
+  const loadingText = document.createElement('h4');
   loadingText.innerText = 'carregando...';
   loadingText.className = 'loading';
-  console.log(loadingText);
   productsDiv.appendChild(loadingText);
 };
 
 const removeLoadingText = () => {
   const loading = document.querySelector('.loading');
-  console.log(loading);
   productsDiv.removeChild(loading);
 };
 
 appendLoadingText();
 
-const products = await fetchProductsList('computador');
+const fillProducts = async () => {
+  try {
+    const products = await fetchProductsList('computador');
+    const sectionArray = products.map((item) => createProductElement(item));
+    removeLoadingText();
+    sectionArray.map((item) => document.querySelector('.products').appendChild(item));
+  } catch (error) {
+    removeLoadingText();
+    const elementoErro = document.createElement('h1');
+    elementoErro.innerText = 'Algum erro ocorreu, recarregue a página e tente novamente';
+    elementoErro.className = 'error';
+    document.querySelector('.products').appendChild(elementoErro);
+  }
+};
 
-const sectionArray = products.map((item) => createProductElement(item));
-
-sectionArray.map((item) => document.querySelector('.products').appendChild(item));
-
-removeLoadingText();
+fillProducts();
