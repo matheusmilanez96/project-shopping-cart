@@ -128,9 +128,7 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
     saveCartID(id);
     fetchProduct(id)
       .then((response) => {
-        console.log(response);
         const li = createCartProductElement(response);
-        console.log(li);
         document.querySelector('.cart__products').appendChild(li);
       });
   });
