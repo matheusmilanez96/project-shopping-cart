@@ -7,6 +7,7 @@ import './style.css';
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 const productsDiv = document.querySelector('.products');
 const localCart = getSavedCartIDs();
+const totalPrice = document.querySelector('.total-price');
 
 const appendLoadingText = () => {
   const loadingText = document.createElement('h4');
@@ -36,10 +37,13 @@ const fillProducts = async () => {
 };
 
 const fillCart = async () => {
+  let priceSum = 0;
   localCart.map((produto) => fetchProduct(produto)
     .then((response) => {
+      priceSum += response.price;
       const li = createCartProductElement(response);
       document.querySelector('.cart__products').appendChild(li);
+      totalPrice.innerHTML = priceSum;
     }));
 };
 

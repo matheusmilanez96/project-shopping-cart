@@ -88,7 +88,17 @@ export const createCartProductElement = ({ id, title, price, pictures }) => {
   );
   li.appendChild(removeButton);
 
-  li.addEventListener('click', () => removeCartProduct(li, id));
+  li.addEventListener('click', () => {
+    removeCartProduct(li, id);
+    const totalPrice = document.querySelector('.total-price');
+    let priceSum = Number(totalPrice.innerHTML);
+    priceSum = Math.round(priceSum * 100) / 100;
+    fetchProduct(id)
+      .then((response) => {
+        priceSum -= response.price;
+        totalPrice.innerHTML = priceSum;
+      });
+  });
   return li;
 };
 
@@ -128,8 +138,13 @@ export const createProductElement = ({ id, title, thumbnail, price }) => {
     saveCartID(id);
     fetchProduct(id)
       .then((response) => {
+        const totalPrice = document.querySelector('.total-price');
+        let priceSum = Number(totalPrice.innerHTML);
+        priceSum = Math.round(priceSum * 100) / 100;
+        priceSum += response.price;
         const li = createCartProductElement(response);
         document.querySelector('.cart__products').appendChild(li);
+        totalPrice.innerHTML = priceSum;
       });
   });
 
